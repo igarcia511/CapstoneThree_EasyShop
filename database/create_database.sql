@@ -216,5 +216,5 @@ VALUES  ('Laptop', 999.99, 1, 'A high-performance laptop for work and entertainm
 
 -- add shopping cart items
 INSERT INTO shopping_cart (user_id, product_id, quantity)
-VALUES  (3, 8, 1),
-        (3, 10, 1);
+VALUES  (2, 8, 1),
+        (2, 10, 1);
