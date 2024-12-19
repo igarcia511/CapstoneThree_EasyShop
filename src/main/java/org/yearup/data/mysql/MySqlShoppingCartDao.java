@@ -74,15 +74,15 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
         //        (2, 10, 1);
         ShoppingCart shoppingCart = getByUserId(userId);
 
+        String sql = shoppingCart.contains(productId) ? "UPDATE shopping_cart SET quantity = quantity + 1 WHERE user_id=? AND product_id=?;" :
+                "INSERT INTO shopping_cart(user_id, product_id, quantity) VALUES(?,?,1);";
 
 
-        String sql = "INSERT INTO shopping_cart(user_id, product_id, quantity) VALUES(?,?,?);";
         try(Connection connection = getConnection()){
             PreparedStatement statement = connection.prepareStatement(sql);
 
             statement.setInt(1, userId);
             statement.setInt(2, productId);
-            statement.setInt(3, 1);
 
             statement.executeUpdate();
 
@@ -90,6 +90,47 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
             e.printStackTrace();
         }
       return shoppingCart;
+    }
+
+    @Override
+    public ShoppingCart updateProductQuantity(int userId, int productId, ShoppingCartItem item) {
+
+        String sql = "UPDATE shopping_cart SET quantity = quantity + ? WHERE user_id=? AND product_id=?;";
+        ShoppingCart shoppingCart = getByUserId(userId);
+        if(shoppingCart.contains(productId)){
+
+        try(Connection connection = getConnection();){
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, item.getQuantity());
+            statement.setInt(2, userId);
+            statement.setInt(3, productId);
+
+            statement.executeUpdate();
+
+        } catch(SQLException e){
+            e.printStackTrace();
+        } }
+return shoppingCart;
+    }
+
+    public ShoppingCart deleteCart(int userId){
+        String sql = "DELETE FROM shopping_cart WHERE user_id=?;";
+
+        ShoppingCart shoppingCart = getByUserId(userId);
+
+        try(Connection connection = getConnection()){
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            statement.setInt(1, userId);
+
+            statement.executeUpdate();
+
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return shoppingCart;
+
     }
 
 
