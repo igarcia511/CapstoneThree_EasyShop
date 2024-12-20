@@ -1,5 +1,7 @@
 package org.yearup.data.mysql;
 
+import org.yearup.models.Profile;
+
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -17,4 +19,5 @@ public abstract class MySqlDaoBase
     {
         return dataSource.getConnection();
     }
+
 }

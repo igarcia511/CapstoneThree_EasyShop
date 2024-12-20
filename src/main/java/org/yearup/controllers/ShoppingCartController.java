@@ -66,7 +66,7 @@ public class ShoppingCartController
     // add a POST method to add a product to the cart - the url should be
     // https://localhost:8080/cart/products/15 (15 is the productId to be added
     @PostMapping("/products/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     @ResponseStatus(HttpStatus.CREATED)
     public ShoppingCart addProduct(Principal principal, @PathVariable int id ){
            String userName = principal.getName();
@@ -80,7 +80,7 @@ public class ShoppingCartController
     // https://localhost:8080/cart/products/15 (15 is the productId to be updated)
     // the BODY should be a ShoppingCartItem - quantity is the only value that will be updated
     @PutMapping("products/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     @ResponseStatus(HttpStatus.OK)
     public ShoppingCart updateProductQuantity(Principal principal, @PathVariable int id, @RequestBody ShoppingCartItem shoppingCartItem){
            String userName = principal.getName();
@@ -94,7 +94,7 @@ public class ShoppingCartController
     // add a DELETE method to clear all products from the current users cart
     // https://localhost:8080/cart
     @DeleteMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     @ResponseStatus(HttpStatus.OK)
     public ShoppingCart deleteCart(Principal principal){
            String userName = principal.getName();
