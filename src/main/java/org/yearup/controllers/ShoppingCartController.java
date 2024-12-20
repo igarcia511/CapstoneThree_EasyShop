@@ -39,8 +39,9 @@ public class ShoppingCartController
 
     // each method in this controller requires a Principal object as a parameter
     @GetMapping
-    @PreAuthorize("permitAll()")
-//    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+   //@ResponseStatus(HttpStatus.UNAUTHORIZED)
+    //@ResponseStatus(HttpStatus.OK)
     public ShoppingCart getCart(Principal principal)
     {
         try
@@ -69,9 +70,13 @@ public class ShoppingCartController
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     @ResponseStatus(HttpStatus.CREATED)
     public ShoppingCart addProduct(Principal principal, @PathVariable int id ){
-           String userName = principal.getName();
-           int userId = userDao.getIdByUsername(userName);
-         return  shoppingCartDao.addProduct(userId, id);
+           try {
+               String userName = principal.getName();
+               int userId = userDao.getIdByUsername(userName);
+               return shoppingCartDao.addProduct(userId, id);
+           } catch(Exception e){
+               throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
+           }
 
     }
 
@@ -83,9 +88,13 @@ public class ShoppingCartController
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     @ResponseStatus(HttpStatus.OK)
     public ShoppingCart updateProductQuantity(Principal principal, @PathVariable int id, @RequestBody ShoppingCartItem shoppingCartItem){
-           String userName = principal.getName();
-           int userId = userDao.getIdByUsername(userName);
-         return  shoppingCartDao.updateProductQuantity(userId, id, shoppingCartItem);
+           try {
+               String userName = principal.getName();
+               int userId = userDao.getIdByUsername(userName);
+               return shoppingCartDao.updateProductQuantity(userId, id, shoppingCartItem);
+           } catch(Exception e){
+               throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
+           }
 
     }
 
@@ -95,11 +104,14 @@ public class ShoppingCartController
     // https://localhost:8080/cart
     @DeleteMapping
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-    @ResponseStatus(HttpStatus.OK)
     public ShoppingCart deleteCart(Principal principal){
-           String userName = principal.getName();
-           int userId = userDao.getIdByUsername(userName);
-          return shoppingCartDao.deleteCart(userId);
+           try {
+               String userName = principal.getName();
+               int userId = userDao.getIdByUsername(userName);
+               return shoppingCartDao.deleteCart(userId);
+           } catch(Exception e){
+               throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
+           }
     }
 
 }

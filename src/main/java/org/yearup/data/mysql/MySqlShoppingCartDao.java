@@ -50,8 +50,11 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
                        int stock = rows.getInt("stock");
                        boolean isFeatured = rows.getBoolean("featured");
                        String imgUrl = rows.getString("image_url");
+
                        Product product = new Product(productId, name, price, categoryId, description, color, stock, isFeatured, imgUrl);
+
                           ShoppingCartItem shoppingCartItem = new ShoppingCartItem();
+
                           shoppingCartItem.setProduct(product);
                           shoppingCartItem.setQuantity(rows.getInt("quantity"));
 
