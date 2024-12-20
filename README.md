@@ -3,7 +3,7 @@
 ### Description:
 This Capstone is an online shop that users can utilize for their shopping needs. Some of the things
 the users can do is add proudcts to their cart, update their profile, log in and out, cart saves to user after log out and upon login, users will see their
-cart items. Part of this capstone was creating the DAOs, and end points, configuring them together to achieve successful requests.
+cart items. Part of this capstone was creating the DAOs, and end points, configuring them together to achieve successful requests. (Phase 1,2,3,4)
 <br />    
 ##
 ##
